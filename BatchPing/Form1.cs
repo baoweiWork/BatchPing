@@ -13,6 +13,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Web.UI.WebControls;
 using System.Windows.Forms;
+using System.Windows.Threading;
 
 namespace BatchPing
 {
@@ -22,7 +23,9 @@ namespace BatchPing
         {
             InitializeComponent();
             this.dataGridView1.AutoGenerateColumns = false;
+            ThreadPool.SetMaxThreads(50, 50);
         }
+        List<PingInfo> pInfo = new List<PingInfo>();
 
         private void BtnOk_Click(object sender, EventArgs e)
         {
@@ -36,7 +39,7 @@ namespace BatchPing
                 int ipAddEnd2 = Convert.ToInt32(ipEnd2.Text);
                 int ipAddEnd3 = Convert.ToInt32(ipEnd3.Text);
                 int ipAddEnd4 = Convert.ToInt32(ipEnd4.Text);
-                if (ipAddStart1 != ipAddEnd1 || ipAddStart2 != ipAddEnd2 || ipAddStart3 != ipAddEnd3 )
+                if (ipAddStart1 != ipAddEnd1 || ipAddStart2 != ipAddEnd2 || ipAddStart3 != ipAddEnd3)
                 {
                     MessageBox.Show("起始IP网关不一致!");
                     return;
@@ -52,44 +55,60 @@ namespace BatchPing
                     return;
                 }
                 this.dataGridView1.Rows.Clear();
+                //this.dataGridView1.DataSource=null;
 
+                pInfo = new List<PingInfo>();
+                //Task task = new Task(() =>
+                //{
+                //    //*****以下是异步执行的代码 * ****
+                //    //10个一组验证,有几组
+                //    int zu = 10;
+                //    int group = (ipAddEnd4 - ipAddStart4) / zu;
+                //    for (int j = 0; j <= group + 1; j++)
+                //    {
+                //        int startIp = ipAddStart4 + j * zu;
+                //        int k = j;
+                //        MethodInvoker mi = new MethodInvoker(() =>
+                //        {
+                //            TestMethod(startIp, k, zu, ipAddEnd4);
+                //        });
+                //        this.BeginInvoke(mi);
+                //    }
 
+                //    //for (int k = ipAddStart4; k <= ipAddEnd4; k++)
+                //    //{
+                //    //    Ping p1 = new Ping();
+                //    //    string ip = ipStart1.Text + "." + ipStart2.Text + "." + ipStart3.Text + "." + k;
+                //    //    PingReply reply = p1.Send(ip, Convert.ToInt32(txtTime.Text));
+
+                //    //    MethodInvoker mi = new MethodInvoker(() =>
+                //    //    {
+                //    //        TestMethod(ip, reply);
+                //    //    });
+                //    //    this.BeginInvoke(mi);
+                //    //}
+                //    //*****以上是异步执行的代码*****
+                //});
                 Task task = new Task(() =>
                 {
-                    //*****以下是异步执行的代码*****
-                    //30个一组验证,有几组
-                    //int zu = 10;
-                    //int group = (ipAddEnd4 - ipAddStart4) / zu;
-                    //for (int j = 0; j <= group+1; j++)
-                    //{
-                    //    int startIp = ipAddStart4 + j * zu;
-                    //    int k = j;
-                    //    MethodInvoker mi = new MethodInvoker(() =>
-                    //    {
-                    //        TestMethod(startIp, k, zu, ipAddEnd4);
-                    //    });
-                    //    this.BeginInvoke(mi);
-                    //}
-                    for (int k = ipAddStart4; k <= ipAddEnd4; k++)
+                    Parallel.For(ipAddStart4, ipAddEnd4+1, k =>
                     {
                         Ping p1 = new Ping();
                         string ip = ipStart1.Text + "." + ipStart2.Text + "." + ipStart3.Text + "." + k;
                         PingReply reply = p1.Send(ip, Convert.ToInt32(txtTime.Text));
 
-                        MethodInvoker mi = new MethodInvoker(() =>
+                        this.BeginInvoke(new MethodInvoker(() =>
                         {
-                            TestMethod(ip, reply);
-                        });
-                        this.BeginInvoke(mi);
-                    }
-                    //*****以上是异步执行的代码*****
+                            TestMethod(ip, reply, k);
+                        }));
+                    });
                 });
                 task.Start();
 
             }
             catch (Exception ex)
             {
-                MessageBox.Show("IP地址格式输入错误!");
+                MessageBox.Show("异常错误:"+ex.Message);
             }
         }
 
@@ -100,41 +119,68 @@ namespace BatchPing
         /// <param name="page">第几组</param>
         /// <param name="group">每组多少个</param>
         /// <param name="stopIp">终止Ip</param>
-        public void TestMethod(int startIp,int page,int group,int stopIp)
+        public void TestMethod(int startIp, int page, int group, int stopIp)
         {
-            
+
             for (int i = 0; i <= group; i++)
             {
                 if (startIp + i > stopIp)
                     break;
                 string ip = ipStart1.Text + "." + ipStart2.Text + "." + ipStart3.Text + "." + (startIp + i).ToString();
-               
+
                 try
                 {
-                    Ping p1 = new Ping();
-                    PingReply reply = p1.Send(ip, Convert.ToInt32(txtTime.Text));
-                    StringBuilder sbuilder;
-                    if (reply.Status == IPStatus.Success)
+                    this.Load += delegate
                     {
-                        sbuilder = new StringBuilder();
-                        sbuilder.Append(string.Format("往返时间: {0} ", reply.RoundtripTime + "ms "));
-                        sbuilder.Append(string.Format("TTL: {0} ", reply.Options.Ttl));
-                        sbuilder.Append(string.Format("字节: {0} ", reply.Buffer.Length));
+                        System.Timers.Timer timer = new System.Timers.Timer();
+                        //DispatcherTimer timer = new DispatcherTimer();
+                        timer.Interval = 100;
 
-                        dataGridView1.Rows.Add(reply.Address.ToString(), GetMACByIP(reply.Address.ToString()), sbuilder.ToString()); ;
-                    }
-                    else
-                    {
-                        dataGridView1.Rows.Add(ip, "", "请求超时!");
-                    }
+                        timer.Elapsed += delegate
+                        {
+                            Ping p1 = new Ping();
+                            PingReply reply = p1.Send(ip, Convert.ToInt32(txtTime.Text));
+                            StringBuilder sbuilder;
+                            PingInfo info = new PingInfo();
+                            if (reply.Status == IPStatus.Success)
+                            {
+                                sbuilder = new StringBuilder();
+                                sbuilder.Append(string.Format("往返时间: {0} ", reply.RoundtripTime + "ms "));
+                                sbuilder.Append(string.Format("TTL: {0} ", reply.Options.Ttl));
+                                sbuilder.Append(string.Format("字节: {0} ", reply.Buffer.Length));
+
+                                info.IpAddress = reply.Address.ToString();
+                                info.textMAC = GetMACByIP(reply.Address.ToString());
+                                info.message = sbuilder.ToString();
+                                pInfo.Add(info);
+                                dataGridView1.Rows.Add(reply.Address.ToString(), GetMACByIP(reply.Address.ToString()), sbuilder.ToString());
+                            }
+                            else
+                            {
+                                info.IpAddress = ip;
+                                info.textMAC = "";
+                                info.message = "请求超时!";
+                                dataGridView1.Rows.Add(ip, "", "请求超时!");
+                            }
+                            timer.Stop();
+                        };
+
+                        timer.Start();
+
+                    };
                 }
                 catch (Exception ex)
                 {
+                    PingInfo info = new PingInfo();
+                    info.IpAddress = ip;
+                    info.textMAC = "";
+                    info.message = "异常错误:" + ex.Message;
+                    pInfo.Add(info);
                     dataGridView1.Rows.Add(ip, "", "异常错误:" + ex.Message);
                 }
             }
         }
-        public void TestMethod(string ip, PingReply reply)
+        public void TestMethod(string ip, PingReply reply,int k)
         {
             try
             {
@@ -147,16 +193,16 @@ namespace BatchPing
                     sbuilder.Append(string.Format("字节: {0} ", reply.Buffer.Length));
 
 
-                    dataGridView1.Rows.Add(reply.Address.ToString(), GetMACByIP(reply.Address.ToString()), sbuilder.ToString()); ;
+                    dataGridView1.Rows.Add(k,reply.Address.ToString(), GetMACByIP(reply.Address.ToString()), sbuilder.ToString());
                 }
                 else
                 {
-                    dataGridView1.Rows.Add(ip, "", "请求超时!");
+                    dataGridView1.Rows.Add(k, ip, "", "请求超时!");
                 }
             }
             catch (Exception ex)
             {
-                dataGridView1.Rows.Add(ip, "", "异常错误:" + ex.Message);
+                dataGridView1.Rows.Add(k, ip, "", "异常错误:" + ex.Message);
             }
         }
         [DllImport("Iphlpapi.dll")]
@@ -226,6 +272,13 @@ namespace BatchPing
                     MessageBox.Show("异常错误:" + ex.Message);
                 }
             }
+        }
+
+        public class PingInfo
+        {
+            public string IpAddress { get; set; }
+            public string textMAC { get; set; }
+            public string message { get; set; }
         }
     }
 }

@@ -29,6 +29,9 @@
         private void InitializeComponent()
         {
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             this.ipStart3 = new System.Windows.Forms.TextBox();
             this.ipStart4 = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
@@ -58,6 +61,7 @@
             this.grp = new System.Windows.Forms.GroupBox();
             this.rdoGoole = new System.Windows.Forms.RadioButton();
             this.rdoIE = new System.Windows.Forms.RadioButton();
+            this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.IpAddress = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.textMAC = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.message = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -68,14 +72,14 @@
             // 
             // ipStart3
             // 
-            this.ipStart3.Location = new System.Drawing.Point(125, 35);
+            this.ipStart3.Location = new System.Drawing.Point(133, 35);
             this.ipStart3.Name = "ipStart3";
             this.ipStart3.Size = new System.Drawing.Size(37, 21);
             this.ipStart3.TabIndex = 3;
             // 
             // ipStart4
             // 
-            this.ipStart4.Location = new System.Drawing.Point(184, 35);
+            this.ipStart4.Location = new System.Drawing.Point(192, 35);
             this.ipStart4.Name = "ipStart4";
             this.ipStart4.Size = new System.Drawing.Size(39, 21);
             this.ipStart4.TabIndex = 4;
@@ -84,7 +88,7 @@
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label2.Location = new System.Drawing.Point(164, 37);
+            this.label2.Location = new System.Drawing.Point(172, 37);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(17, 16);
             this.label2.TabIndex = 12;
@@ -92,7 +96,7 @@
             // 
             // btnOk
             // 
-            this.btnOk.Location = new System.Drawing.Point(496, 33);
+            this.btnOk.Location = new System.Drawing.Point(504, 33);
             this.btnOk.Name = "btnOk";
             this.btnOk.Size = new System.Drawing.Size(75, 23);
             this.btnOk.TabIndex = 9;
@@ -104,7 +108,7 @@
             // 
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label4.Location = new System.Drawing.Point(407, 37);
+            this.label4.Location = new System.Drawing.Point(415, 37);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(17, 16);
             this.label4.TabIndex = 15;
@@ -112,14 +116,14 @@
             // 
             // ipEnd4
             // 
-            this.ipEnd4.Location = new System.Drawing.Point(427, 35);
+            this.ipEnd4.Location = new System.Drawing.Point(435, 35);
             this.ipEnd4.Name = "ipEnd4";
             this.ipEnd4.Size = new System.Drawing.Size(39, 21);
             this.ipEnd4.TabIndex = 8;
             // 
             // ipEnd3
             // 
-            this.ipEnd3.Location = new System.Drawing.Point(368, 35);
+            this.ipEnd3.Location = new System.Drawing.Point(376, 35);
             this.ipEnd3.Name = "ipEnd3";
             this.ipEnd3.Size = new System.Drawing.Size(37, 21);
             this.ipEnd3.TabIndex = 7;
@@ -133,20 +137,23 @@
             this.dataGridView1.BackgroundColor = System.Drawing.SystemColors.Info;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.Column1,
             this.IpAddress,
             this.textMAC,
             this.message,
             this.btnLogin});
-            this.dataGridView1.Location = new System.Drawing.Point(1, 94);
+            this.dataGridView1.Location = new System.Drawing.Point(14, 94);
             this.dataGridView1.Name = "dataGridView1";
+            this.dataGridView1.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.dataGridView1.RowHeadersVisible = false;
             this.dataGridView1.RowTemplate.Height = 23;
-            this.dataGridView1.Size = new System.Drawing.Size(799, 358);
+            this.dataGridView1.Size = new System.Drawing.Size(776, 358);
             this.dataGridView1.TabIndex = 10;
             this.dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DataGridView1_CellContentClick);
             // 
             // ipStart1
             // 
-            this.ipStart1.Location = new System.Drawing.Point(8, 35);
+            this.ipStart1.Location = new System.Drawing.Point(16, 35);
             this.ipStart1.Name = "ipStart1";
             this.ipStart1.Size = new System.Drawing.Size(37, 21);
             this.ipStart1.TabIndex = 1;
@@ -154,7 +161,7 @@
             // 
             // ipEnd2
             // 
-            this.ipEnd2.Location = new System.Drawing.Point(306, 35);
+            this.ipEnd2.Location = new System.Drawing.Point(314, 35);
             this.ipEnd2.Name = "ipEnd2";
             this.ipEnd2.Size = new System.Drawing.Size(37, 21);
             this.ipEnd2.TabIndex = 6;
@@ -162,7 +169,7 @@
             // 
             // ipEnd1
             // 
-            this.ipEnd1.Location = new System.Drawing.Point(246, 35);
+            this.ipEnd1.Location = new System.Drawing.Point(254, 35);
             this.ipEnd1.Name = "ipEnd1";
             this.ipEnd1.Size = new System.Drawing.Size(37, 21);
             this.ipEnd1.TabIndex = 5;
@@ -170,7 +177,7 @@
             // 
             // ipStart2
             // 
-            this.ipStart2.Location = new System.Drawing.Point(66, 35);
+            this.ipStart2.Location = new System.Drawing.Point(74, 35);
             this.ipStart2.Name = "ipStart2";
             this.ipStart2.Size = new System.Drawing.Size(37, 21);
             this.ipStart2.TabIndex = 2;
@@ -180,7 +187,7 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label1.Location = new System.Drawing.Point(46, 37);
+            this.label1.Location = new System.Drawing.Point(54, 37);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(17, 16);
             this.label1.TabIndex = 20;
@@ -190,7 +197,7 @@
             // 
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label6.Location = new System.Drawing.Point(105, 37);
+            this.label6.Location = new System.Drawing.Point(113, 37);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(17, 16);
             this.label6.TabIndex = 21;
@@ -200,7 +207,7 @@
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label3.Location = new System.Drawing.Point(226, 45);
+            this.label3.Location = new System.Drawing.Point(234, 45);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(17, 16);
             this.label3.TabIndex = 13;
@@ -210,7 +217,7 @@
             // 
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label5.Location = new System.Drawing.Point(287, 37);
+            this.label5.Location = new System.Drawing.Point(295, 37);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(17, 16);
             this.label5.TabIndex = 22;
@@ -220,7 +227,7 @@
             // 
             this.label7.AutoSize = true;
             this.label7.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label7.Location = new System.Drawing.Point(348, 37);
+            this.label7.Location = new System.Drawing.Point(356, 37);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(17, 16);
             this.label7.TabIndex = 23;
@@ -345,34 +352,52 @@
             this.rdoIE.Text = "IE浏览器";
             this.rdoIE.UseVisualStyleBackColor = true;
             // 
+            // Column1
+            // 
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopCenter;
+            dataGridViewCellStyle1.Format = "N0";
+            dataGridViewCellStyle1.NullValue = "0";
+            this.Column1.DefaultCellStyle = dataGridViewCellStyle1;
+            this.Column1.HeaderText = "排序";
+            this.Column1.Name = "Column1";
+            this.Column1.Width = 40;
+            // 
             // IpAddress
             // 
+            this.IpAddress.DataPropertyName = "IpAddress";
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopCenter;
+            this.IpAddress.DefaultCellStyle = dataGridViewCellStyle2;
             this.IpAddress.HeaderText = "地址";
             this.IpAddress.Name = "IpAddress";
+            this.IpAddress.Width = 110;
             // 
             // textMAC
             // 
+            this.textMAC.DataPropertyName = "textMAC";
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopCenter;
+            this.textMAC.DefaultCellStyle = dataGridViewCellStyle3;
             this.textMAC.HeaderText = "MAC地址";
             this.textMAC.Name = "textMAC";
-            this.textMAC.Width = 150;
+            this.textMAC.Width = 120;
             // 
             // message
             // 
+            this.message.DataPropertyName = "message";
             this.message.HeaderText = "ping结果";
             this.message.Name = "message";
-            this.message.Width = 400;
+            this.message.Width = 320;
             // 
             // btnLogin
             // 
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
-            this.btnLogin.DefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
+            this.btnLogin.DefaultCellStyle = dataGridViewCellStyle4;
             this.btnLogin.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.btnLogin.HeaderText = "";
             this.btnLogin.Name = "btnLogin";
             this.btnLogin.Text = "登录网页";
             this.btnLogin.UseColumnTextForButtonValue = true;
-            this.btnLogin.Width = 80;
+            this.btnLogin.Width = 155;
             // 
             // Form1
             // 
@@ -425,7 +450,6 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.TextBox ipEnd4;
         private System.Windows.Forms.TextBox ipEnd3;
-        private System.Windows.Forms.DataGridView dataGridView1;
         private System.Windows.Forms.TextBox ipStart1;
         private System.Windows.Forms.TextBox ipEnd2;
         private System.Windows.Forms.TextBox ipEnd1;
@@ -447,6 +471,8 @@
         private System.Windows.Forms.GroupBox grp;
         private System.Windows.Forms.RadioButton rdoGoole;
         private System.Windows.Forms.RadioButton rdoIE;
+        private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
         private System.Windows.Forms.DataGridViewTextBoxColumn IpAddress;
         private System.Windows.Forms.DataGridViewTextBoxColumn textMAC;
         private System.Windows.Forms.DataGridViewTextBoxColumn message;
